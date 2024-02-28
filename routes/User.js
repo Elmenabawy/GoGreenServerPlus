@@ -4,7 +4,7 @@ const validator=require("../middlewares/UserMWValidator");
 const bcrypt=require("bcrypt");
 const { User } = require("../models/UserModel");
 const Consumption = require('../models/consumptionModel');
-const { getPrediction } = require('../Package'); // Import the function to get prediction
+const { getPrediction } = require('Package'); // Import the function to get prediction
 
 router.post("/", validator, async (req, res) => {
   try {
