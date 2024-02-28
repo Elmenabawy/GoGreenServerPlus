@@ -99,6 +99,7 @@ app.use('/api/login', authRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/consumption', consumptionRouter);
 
+
 // Authentication middleware to protect routes
 const authenticateUser = (req, res, next) => {
     if (req.session) {
@@ -111,7 +112,7 @@ const authenticateUser = (req, res, next) => {
 };
 
 // Example route that requires authentication
-app.get('/home.html', authenticateUser, (req, res) => {
+app.get('/auth', authenticateUser, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 

@@ -4,46 +4,34 @@ const validator = require("../middlewares/AuthMWValidator");
 const config = require("config");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
-
 const { User } = require("../models/UserModel");
-const Consumption = require("../models/consumptionModel");
+
 
 router.post("/", validator, async (req, res) => {
   try {
     const lowercaseEmail = req.body.email.toLowerCase();
     let user = await User.findOne({ email: lowercaseEmail }).exec();
 
-    if (user) {
-      return res.status(400).send("User already exists with this email.");
+    if (!user) {
+      return res.status(400).send("Invalid email or password..");
     }
 
-    // Assuming you have a function to generate consumption data for a new user
-    const consumptionData = generateConsumptionData();
+    const validPswrd = await bcrypt.compare(req.body.password, user.password);
+    if (!validPswrd) {
+      return res.status(400).send("Invalid email or password..");
+    }
 
-    // Create a new Consumption document
-
-
-    // Create a new User document with the reference to the Consumption document
-    user = new User({
-      name: req.body.name,
-      email: lowercaseEmail,
-      password: await bcrypt.hash(req.body.password, 10),
-      address: req.body.address,
-      phoneNumber: req.body.phoneNumber,
-      consumption: consumptionData,
-    });
-
-    await user.save();
-
-    // If the user is created successfully, create a session for the user
+    // If the user is found and the password is correct, create a session for the user
     req.session.user = user;
     req.session.isAuthenticated = true;
 
-    // Send response
+    //send res
     res.status(200).send(user);
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal server error");
+    for (let e in err.errors) {
+      console.log(err.errors[e].message);
+      res.status(400).send("Bad request..");
+    }
   }
 });
 

@@ -40,6 +40,49 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Consumption',
   },
+  january: {
+    type: Number,
+  },
+  february: {
+    type: Number,
+  },
+  march: {
+    type: Number,
+  },
+  april: {
+    type: Number,
+  },
+  may: {
+    type: Number,
+  },
+  june: {
+    type: Number,
+  },
+  july: {
+    type: Number,
+  },
+  august: {
+    type: Number,
+  },
+  september: {
+    type: Number,
+  },
+  october: {
+    type: Number,
+  },
+  november: {
+    type: Number,
+  },
+  december: {
+    type: Number,
+  },
+  kind: {
+    type: Number,
+  },
+  predictionResult: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Package',
+  },
 });
 
 const User = mongoose.model('User', userSchema);

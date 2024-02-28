@@ -4,7 +4,7 @@ const validator=require("../middlewares/UserMWValidator");
 const bcrypt=require("bcrypt");
 const { User } = require("../models/UserModel");
 const Consumption = require('../models/consumptionModel');
-
+const { getPrediction } = require('../Package'); // Import the function to get prediction
 
 router.post("/", validator, async (req, res) => {
   try {
@@ -16,14 +16,26 @@ router.post("/", validator, async (req, res) => {
     let salt = await bcrypt.genSalt(10);
     let hashedPswd = await bcrypt.hash(req.body.password, salt);
     //create new user to be added to DB
-    const consumptionData = await Consumption.findOne();
     user = new User({
       email: req.body.email,
       name: req.body.name,
       password: hashedPswd,
       phoneNumber:req.body.phoneNumber,
       address:req.body.address,
-      consumption: consumptionData,
+      january: req.body.january,
+      february: req.body.february,
+      march: req.body.march,
+      april: req.body.april,
+      may: req.body.may,
+      june: req.body.june,
+      july: req.body.july,
+      august: req.body.august,
+      september: req.body.september,
+      october: req.body.october,
+      november: req.body.november,
+      december: req.body.december,
+      kind: req.body.kind,
+      predictionResult: await getPrediction(),
     });
 
     await user.save();
